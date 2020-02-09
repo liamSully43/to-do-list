@@ -15,6 +15,7 @@ else {
 // Checks if the enter key was pressed
 function keyDown(event) {
 	var key = event.charCode;
+	console.log(key);
 	if(key === 13) {
 		addItems();
 		document.getElementById("delete-button").style.display = "none";
@@ -24,7 +25,7 @@ function keyDown(event) {
 // This is used to add the item in the box to the list
 function addItems(){
 	var item = document.getElementById("input-lists").value;
-	if(listItemsArray.includes(item)) {
+	if(listItemsArray.indexOf(item) > -1) {
 		document.getElementById("error-message").style.display = "block";
 	}
 	else{

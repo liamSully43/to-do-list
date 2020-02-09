@@ -130,6 +130,10 @@ body {
 	overflow: auto;
 }
 
+#list-items-container > div > img {
+	float: right;
+}
+
 #delete-button {
 	display: none;
 }
@@ -154,6 +158,7 @@ body {
 	font-family: sans-serif;
 	margin-right: 10px;
 	resize: none;
+	overflow: auto;
 }
 
 #saved-lists-container {
@@ -230,3 +235,87 @@ body {
 .saved-lists::first-letter {
 	text-transform: capitalize;
 }
+
+/* CSS for mobile display/layout */
+
+@media (max-width: 500px) {
+	#content {
+		display: block;
+		width: 100%;
+		padding: 0px;
+	}
+	
+	#left-container, #right-container {
+		width: 80%;
+		margin: auto;
+		margin-top: 15px;
+		border-radius: 20px;
+	}
+	
+	#left-container {
+		height: 100px;
+	}
+	
+	#left-container > p {
+		font-size: 13px;
+	}
+	
+	#left-container-flex {
+		display: block;
+		margin-top: -5px;
+	}
+	
+	#left-container-flex > textarea {
+		width: 92%;
+		height: auto;
+		margin: auto;
+		font-size: 10px;
+		padding: 10px;
+		padding-top: 10px;
+		padding-bottom: 0px;
+	}
+	
+	#saved-lists-container {
+		height: 20px;
+		margin-top: 10px;
+		width: 92%;
+		margin-left: 0px;
+		overflow: auto;
+		white-space: nowrap;
+	}
+	
+	#saved-lists-container > p {
+		font-size: 13px;
+		width: auto;
+		display: inline-block;
+		border-bottom: 0px;
+		border-right: 1px solid #ffd43b;
+		padding: 0px 5px;
+		margin-top: 3px;
+	}
+	
+	#right-container {
+		height: 65vh;
+	}
+	
+	#list-title {
+		width: 93%;
+	}
+	
+	#list-items-container {
+		width: 86%;
+	}
+	
+	#list-items-container > div > p {
+		font-size: 15px;
+	}
+	
+	#preview {
+		width: 80%;
+	}
+	
+	#preview > img {
+		margin-left: 81%;
+	}
+}
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>To Do List</title>
+<link rel="stylesheet" type="text/css" href="to-do-list.css">
+<link rel="shortcut icon" type="image/png" href="pencil-icon.png"/>
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+</head>
+<body>
+<div id="preview-background">
+	<div id="preview">
+		<img src="x.png" width="20" height="20" id="close-preview" onclick="loadPreview(false)">
+		<div id="preview-flex">
+			<p id="preview-header"></p>
+			<div id="list-header-break"></div>
+			<button id="save-button" class="buttons" onclick="saveList()" title="Click to save the list">Save</button>
+		</div>
+	</div>
+</div>
+<div id="content">
+	<div id="left-container">
+		<p id="title">Press enter to add item to list</p>
+		<div id="left-container-flex">
+			<textarea placeholder="Enter items here" id="input-lists" onkeypress="keyDown(event)"></textarea>
+			<div id="saved-lists-container"></div>
+		</div>
+	</div>
+	<div id="right-container">
+		<input id="list-title" placeholder="To do list title" onkeypress="hideButton()">
+		<div id="list-items-container"></div>
+		<div id="buttons-container">
+			<button id="download-button" class="buttons" onclick="loadPreview(true)" title="Click to preview the list">Preview</button>
+			<button id="delete-button" class="buttons" title="Click to delete the list">Delete</button>
+			<p id="error-message">This item has already been added to the list</p>
+		</div>
+	</div>
+</div>
+</body>
+<script src="to-do-list.js"></script>
+</html>
