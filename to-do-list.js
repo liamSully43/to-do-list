@@ -23,7 +23,7 @@ function keyDown(event) {
 }
 
 // This is used to add the item in the box to the list
-function addItems(){
+function addItems() {
 	var item = document.getElementById("input-lists").value;
 	if(listItemsArray.indexOf(item) > -1) {
 		document.getElementById("error-message").style.display = "block";
