@@ -15,7 +15,7 @@ else {
 
 // Checks if the enter key was pressed
 function keyDown(event) {
-	let key = event.charCode;
+	let key = (window.event) ? event.which : event.charCode;;
 	if(key === 13) {
 		addItems();
 		document.getElementById("delete-button").style.display = "none";
