@@ -1,5 +1,6 @@
 // This is where the items for the list are stored when creating or editing a list
-var listItemsArray = [];
+let listItemsArray = [];
+let numOfEnteredItems = 0;
 
 // This checks to see if any lists exist/check to see if localStorage.number exists - that's used to count what number the current list is on
 if(!localStorage.number){
@@ -7,15 +8,14 @@ if(!localStorage.number){
 	}
 else {
 	for (i=1; localStorage.number-1 >= i; i++){
-		var title = localStorage['listTitle' + i];
+		let title = localStorage['listTitle' + i];
 		createSavedLists(title, i);
 	}
 }
 
 // Checks if the enter key was pressed
 function keyDown(event) {
-	var key = event.charCode;
-	console.log(key);
+	let key = event.charCode;
 	if(key === 13) {
 		addItems();
 		document.getElementById("delete-button").style.display = "none";
@@ -23,18 +23,19 @@ function keyDown(event) {
 }
 
 // This is used to add the item in the box to the list
-function addItems() {
-	var item = document.getElementById("input-lists").value;
+function addItems(){
+	let item = document.getElementById("input-lists").value;
 	if(listItemsArray.indexOf(item) > -1) {
 		document.getElementById("error-message").style.display = "block";
 	}
 	else{
 		listItemsArray.push(item);
+		numOfEnteredItems++;
 		document.getElementById("input-lists").value = "";
-		var listItem = document.createElement("p");
-		var removeItem = document.createElement("img");
-		var div = document.createElement("div");
-		var element = document.getElementById("list-items-container");
+		const listItem = document.createElement("p");
+		const removeItem = document.createElement("img");
+		const div = document.createElement("div");
+		const element = document.getElementById("list-items-container");
 		listItem.innerHTML = item;
 		removeItem.src = "x.png";
 		removeItem.style.width = "10px";
@@ -45,17 +46,16 @@ function addItems() {
 		div.appendChild(listItem);
 		div.appendChild(removeItem);
 		listItem.classList.add("list-items");
-		listItem.setAttribute("id", "item-text" + listItemsArray.length);
-		removeItem.setAttribute("id", listItemsArray.length);
-		div.setAttribute("id", "item" + listItemsArray.length);
+		listItem.setAttribute("id", `item-text${numOfEnteredItems}`);
+		removeItem.setAttribute("id", numOfEnteredItems);
+		div.setAttribute("id", `item${numOfEnteredItems}`);
 		document.getElementById("error-message").style.display = "none";
 	}
 }
 
 function removeItemFromList (number) {
-	document.getElementById("item" + number).style.display = "none";
-	document.getElementById("delete-button").style.display = "none";
-	listItemsArray[number-1] = null;
+	document.getElementById(`item${number}`).remove();
+	listItemsArray.splice(number-1, 1);
 }
 
 // This displays the preview of the list
@@ -65,7 +65,7 @@ function loadPreview(hidden) {
 		document.getElementById("preview-background").style.display = "block";
 		document.getElementById("preview-header").innerHTML = document.getElementById("list-title").value;
 		for(i = 0; listItemsArray.length > i; i++){
-			var addItem = document.createElement("p");
+			const addItem = document.createElement("p");
 			addItem.innerHTML = listItemsArray[i];
 			document.getElementById("list-header-break").appendChild(addItem);
 			addItem.classList.add("preview-list-items");
@@ -75,7 +75,7 @@ function loadPreview(hidden) {
 	else {
 		document.getElementById("preview").style.display = "none";
 		document.getElementById("preview-background").style.display = "none";
-		var parentElement = document.getElementById("list-header-break")
+		const parentElement = document.getElementById("list-header-break")
 		while (parentElement.firstChild) {
 			parentElement.removeChild(parentElement.firstChild);
 		}
@@ -83,28 +83,21 @@ function loadPreview(hidden) {
 }
 
 function saveList(){
-	var title = document.getElementById("list-title").value;
-	var element = document.getElementById("list-items-container");
-	var numOfChild = document.getElementById("list-items-container").childElementCount;
-	var itemsString;
+	const title = document.getElementById("list-title").value;
+	const element = document.getElementById("list-items-container");
+	const numOfChild = listItemsArray.length;
+	let itemsString;
 	document.getElementById("input-lists").value = "";
 	document.getElementById("list-title").value = "";
-	numOfChild++;
-	for (i=0; numOfChild-1 > i; i++) {
-		var item = listItemsArray[i];
-		if(item === null || item === "undefined"){}
-		else {
-			itemsString += item;
-			itemsString += ";";
-		}
+	for (i=0; numOfChild > i; i++) {
+		let item = listItemsArray[i];
+		itemsString += item;
+		itemsString += "/-/";
 	};
 	listItemsArray = [];
-	if(itemsString == null){
-		localStorage['listTitle' + localStorage.number] = title;
-	}
-	else{
-		var localStorageString = itemsString.slice(9);
-		localStorage['listTitle' + localStorage.number] = title;
+	localStorage['listTitle' + localStorage.number] = title;
+	if(itemsString != null){
+		let localStorageString = itemsString.slice(9);
 		localStorage['list' + localStorage.number] = localStorageString;
 	}
 	while (element.firstChild){
@@ -118,27 +111,27 @@ function saveList(){
 // This loads a list when a user clicks on a list
 
 function loadList(id) {
-	var number = document.getElementById("list-items-container").childElementCount;
-	var element = document.getElementById("list-items-container");
+	let number = document.getElementById("list-items-container").childElementCount;
+	const element = document.getElementById("list-items-container");
 	for (i=0; number > i; i++){
 		element.removeChild(element.firstChild);
 	}
-	var itemsString = localStorage["list" + id];
-	var title = localStorage["listTitle" + id];
+	let itemsString = localStorage["list" + id];
+	let title = localStorage["listTitle" + id];
 	document.getElementById("list-title").value = title;
-	var parentElement = document.getElementById("list-header-break")
+	const parentElement = document.getElementById("list-header-break")
 		while (parentElement.firstChild) {
 			parentElement.removeChild(parentElement.firstChild);
 		}
 	if(typeof itemsString !== "undefined"){
-		var lastChar = itemsString.slice(0,-1);
-		var string = lastChar.split(";");
+		let lastChar = itemsString.slice(0,-3);
+		let string = lastChar.split("/-/");
 		listItemsArray = string;
 		for(i=0; listItemsArray.length > i; i++){
-			var listItem = document.createElement("p");
-			var removeItem = document.createElement("img");
-			var div = document.createElement("div");
-			var count = i;
+			let listItem = document.createElement("p");
+			let removeItem = document.createElement("img");
+			let div = document.createElement("div");
+			let count = i;
 			count++;
 			listItem.innerHTML = listItemsArray[i];
 			removeItem.src = "x.png";
@@ -149,9 +142,9 @@ function loadList(id) {
 			div.appendChild(listItem);
 			div.appendChild(removeItem);
 			listItem.classList.add("list-items");
-			listItem.setAttribute("id", "item-text" + count);
+			listItem.setAttribute("id", `item-text${count}`);
 			removeItem.setAttribute("id", count);
-			div.setAttribute("id", "item" + count);
+			div.setAttribute("id", `item${count}`);
 			document.getElementById("error-message").style.display = "none";
 		}
 	}
@@ -162,9 +155,9 @@ function loadList(id) {
 // When the page is loaded this creates all of the saved lists
 
 function createSavedLists(title, listId) {
-	var list = document.createElement("p");
-	var container = document.getElementById("saved-lists-container");
-	var id = document.getElementById("saved-lists-container").childElementCount;
+	const list = document.createElement("p");
+	const container = document.getElementById("saved-lists-container");
+	const id = document.getElementById("saved-lists-container").childElementCount;
 	list.innerHTML = title;
 	list.classList.add("saved-lists");
 	list.setAttribute("id", id+1);
@@ -178,8 +171,7 @@ function createSavedLists(title, listId) {
 }
 
 function deleteList(listId) {
-	var element = document.getElementById("saved-lists-container");
-	var element = document.getElementById("list-items-container");
+	const element = document.getElementById("list-items-container");
 	localStorage.removeItem('list' + listId);
 	localStorage.removeItem('listTitle' + listId);
 	document.getElementById(listId).style.display = "none";
