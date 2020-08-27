@@ -8,6 +8,7 @@
 	<meta content="width=device-width, initial-scale=1" name="viewport" />
 </head>
 <body>
+	<!-- preview of list before saving -->
 	<div id="preview-background">
 		<div id="preview">
 			<img src="x.png" width="20" height="20" id="close-preview" onclick="loadPreview(false)">
@@ -18,7 +19,9 @@
 			</div>
 		</div>
 	</div>
+	<!-- Main content -->
 	<div id="content">
+		<!-- container to enter items & show saved lists -->
 		<div id="left-container">
 			<p id="title">Press enter to add item to list</p>
 			<div id="left-container-flex">
@@ -26,6 +29,7 @@
 				<div id="saved-lists-container"></div>
 			</div>
 		</div>
+		<!-- Container that shows items in a list -->
 		<div id="right-container">
 			<input id="list-title" placeholder="To do list title" onkeypress="hideButton()">
 			<div id="list-items-container"></div>
@@ -37,5 +41,5 @@
 		</div>
 	</div>
 </body>
-<script src="to-do-list.js"></script>
+<script defer src="to-do-list.js"></script>
 </html>
